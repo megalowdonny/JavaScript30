@@ -58,7 +58,25 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+  // Listens for you to hit a key with a sound linked to it
+  window.addEventListener('keydown', function(e) {
+    const audio = document.querySelector(`audio[data-key='${e.keyCode}']`); // finds the corresponding <audio>
+    if (!audio) return; // stops function if a key is pressed that doesn't have an audio file
+    const key = document.querySelector(`.key[data-key="${e.keyCode}"]`); // finds the corresponding .key <div>
+    audio.currentTime = 0; // if a previous keypress is still playing, this will restart it
+    audio.play();
+    key.classList.add('playing');
+  });
 
+  // Takes away the special formatting so it doesn't stick
+  function removeTransition(e) {
+    console.log(e);
+    if (e.propertyName !== 'transform') return; // we only are looking at the transform event, since there's 6 logged
+    this.classList.remove('playing');
+  }
+
+  const keys = document.querySelectorAll('.key'); // Makes a nodelist of all the .key <div>s
+  keys.forEach(key => key.addEventListener('transitionend', removeTransition)); // The event check for special formatting transitions ending
 </script>
 
 

@@ -5,7 +5,7 @@
   <title>Scoped CSS Variables and JS</title>
 </head>
 <body>
-  <h2>Update CSS Variables with <span class='hl'>JS</span></h2>
+  <h2>Update CSS Variables with <span class='h1'>JS</span></h2>
 
   <div class="controls">
     <label for="spacing">Spacing:</label>
@@ -22,8 +22,24 @@
 
   <style>
 
+    :root {
+      --base: #ffc600;
+      --spacing: 10px;
+      --blur: 10px;
+    }
+    /* Apparently that's ^^ how you make CSS variables! */
+    img {
+      padding: var(--spacing);
+      background: var(--base);
+      filter: blur(var(--blur));
+    }
+
+    .h1 {
+      color: var(--base);
+    }
+
     /*
-      misc styles, nothing to do with CSS variables
+      misc styles below, nothing to do with CSS variables
     */
 
     body {
@@ -45,6 +61,17 @@
   </style>
 
   <script>
+    const inputs = document.querySelectorAll('.controls input'); // Gets a nodelist of all the <input>s
+
+    function handleUpdates() {
+      const suffix = this.dataset.sizing || ''; // Accounts for the px expected in padding and filter
+      // The below this is referring to the <input> the event was heard from
+      document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix); 
+    }
+
+    inputs.forEach(input => input.addEventListener('change', handleUpdates)); 
+    inputs.forEach(input => input.addEventListener('mousemove', handleUpdates)); // lets everything update in real time
+    inputs.forEach(input => input.addEventListener('input', handleUpdates)); // Real-time color wheel only worked with input events
   </script>
 
 </body>
