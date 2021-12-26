@@ -17,12 +17,16 @@
 <script>
 const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
 
-const cities = [];
+// My stuff is everything below
 
+const cities = []; // Empty array to store evertything in
+
+// Gets the info from the link, converts it to json, then pushed it to the empty array
 fetch(endpoint)
     .then(blob => blob.json())
     .then(data => cities.push(...data));
 
+// Filters out locations only matching the not-yet-determined wordToMatch value
 function findMatches(wordToMatch, cities) {
   return cities.filter(place => {
     // This is where the searching actually happens
@@ -31,16 +35,18 @@ function findMatches(wordToMatch, cities) {
   })
 }
 
-
+// Just takes the population number and formats it nicely
 function numberWithCommas(x) {
 	  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 
- 
+// The events trigger "this" to refer to what's in the <input> currently
 function displayMatches() {
   const matchArray = findMatches(this.value, cities);
+  // Adds the <li> elements needed to display the matches
   const html = matchArray.map(place => {
     const regex = new RegExp(this.value, 'gi');
+    // The next 2 make the actual matching text highlighted
     const cityName = place.city.replace(regex, `<span class='hl'>${this.value}</span>`);
     const stateName = place.state.replace(regex, `<span class='hl'>${this.value}</span>`);
     return `
@@ -49,13 +55,16 @@ function displayMatches() {
         <span class='population'>${numberWithCommas(place.population)}</span>
       </li>
     `;
-  }).join('');
+  }).join(''); // Makes it one long string instead of an array from .map()
+  // Actually adds in the <li> elements in the suggestions <ul>
   suggestions.innerHTML = html;
 }
 
+// Grabs the <ul> and <input>
 const searchInput = document.querySelector('.search');
 const suggestions = document.querySelector('.suggestions');
 
+// Change and Keyup events to update every time anything is added/taken away
 searchInput.addEventListener('change', displayMatches);
 searchInput.addEventListener('keyup', displayMatches);
 </script>
