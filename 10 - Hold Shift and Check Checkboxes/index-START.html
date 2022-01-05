@@ -100,14 +100,21 @@
   let lastChecked;
   
   function handleCheck(e) {
-    let inBetween = false;
+    let inBetween = false; // function-wide flag, not for individual checkboxes
     if (e.shiftKey === true && this.checked) {
+      // looping over every checkbox to see which are inbetween targets
       checkboxes.forEach(checkbox => {
-        if (checkbox === this || checkbox === lastChecked) {
-          
+        if (checkbox === this || checkbox === lastChecked) { // Catches start and end points
+          inBetween = !inBetween; // 1st instance sets inBetween to true, 2nd back to false
+        }
+
+        // Until inBetween is turned back to false, this will run
+        if (inBetween) {
+          checkbox.checked = true;
         }
       })
     }
+    // If no shift-click, this is all that happens whenever a checkbox is clicked
     lastChecked = this;
   }
 
