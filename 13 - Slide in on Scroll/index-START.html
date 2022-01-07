@@ -43,7 +43,7 @@
   </div>
 
   <script>
-    function debounce(func, wait = 20, immediate = true) {
+    function debounce(func, wait = 5, immediate = true) {
       var timeout;
       return function() {
         var context = this, args = arguments;
@@ -57,6 +57,31 @@
         if (callNow) func.apply(context, args);
       };
     }
+
+    const sliderImages = document.querySelectorAll('.slide-in');
+
+    function checkSlide(e) {
+      sliderImages.forEach(slideImage => {
+        // Where the bottom of the window is
+        // Anything besides this line was done on my own (:
+        const bottomOfWindow = window.scrollY + window.innerHeight;
+
+        // Where the bottom of the window should be to slide image in
+        const detectionPoint = slideImage.y + (slideImage.height / 2);
+
+        // Trigger for sliding image in
+        if (bottomOfWindow >= detectionPoint || window.scrollY <= detectionPoint) {
+          slideImage.classList.add('active');
+        }
+
+        // Trigger for sliding image back out
+        if (window.scrollY > detectionPoint || bottomOfWindow < detectionPoint) {
+          slideImage.classList.remove('active');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', debounce(checkSlide));
 
   </script>
 
