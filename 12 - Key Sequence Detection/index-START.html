@@ -7,6 +7,30 @@
 </head>
 <body>
 <script>
+  const pressed = [];
+  const secretCode = ['ArrowUp', 
+      'ArrowUp',
+      'ArrowDown',
+      'ArrowDown',
+      'ArrowLeft',
+      'ArrowRight',
+      'ArrowLeft',
+      'ArrowRight',
+      'a',
+      'b',
+      'Enter'];
+
+  window.addEventListener('keyup', (e) => { 
+    //console.log(e.key);
+    // Add new key to array, now array is secretCode.length + 1 long
+    pressed.push(e.key); 
+    // Resize to the length of secretCode
+    pressed.splice(-secretCode.length - 1, pressed.length - secretCode.length); 
+    //console.log(pressed.join('').toLowerCase());
+
+    // Check if the secretCode was entered
+    if (pressed.join('').toLowerCase() === secretCode.join('').toLowerCase()) console.log('You win!');
+  });
 </script>
 </body>
 </html>
