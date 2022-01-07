@@ -76,3 +76,4 @@ ranges.forEach(range => range.addEventListener('change', handleRangeUpdate));
 ranges.forEach(range => range.addEventListener('input', handleRangeUpdate));
 
 fullscreen.addEventListener('click', handleFullscreen);
+// FIX THIS??
