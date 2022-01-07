@@ -29,7 +29,14 @@
     //console.log(pressed.join('').toLowerCase());
 
     // Check if the secretCode was entered
-    if (pressed.join('').toLowerCase() === secretCode.join('').toLowerCase()) console.log('You win!');
+    if (pressed.join('').toLowerCase() === secretCode.join('').toLowerCase()) {
+      console.log('You win!');
+      
+      // for the lulz
+      for (let i = 0; i < 24 ; i++) {
+        cornify_add();
+      }
+    }
   });
 </script>
 </body>
