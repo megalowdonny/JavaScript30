@@ -6,3 +6,5 @@ I'm only including the finished files that I actaully had a part in editing, for
 The repos that these files actually belong with can be found at is: https://github.com/wesbos/JavaScript30 
 
 Just replace the index-START.html files, since I was too lazy to rename them.
+
+Just checking to make sure this works.
