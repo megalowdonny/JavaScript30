@@ -28,10 +28,13 @@
 <script>
   const addItems = document.querySelector('.add-items');
   const itemsList = document.querySelector('.plates');
-  const items = [];
+  /* The items array will either be pulling from localStorage, or will be created
+  as an empty array, depending on if there's already anything in localStorage to pull */
+  const items = JSON.parse(localStorage.getItem('items')) || [];
 
+  /* Handles submission of new plates */
   function addItem(e) {
-    e.preventDefault();
+    e.preventDefault(); // Prevents the submit event from resetting the page
     const text = (this.querySelector('[name=item]')).value;
     const item = {
       text: text,
@@ -40,9 +43,11 @@
     
     items.push(item);
     populateList(items, itemsList);
-    this.reset();
+    localStorage.setItem('items', JSON.stringify(items));
+    this.reset(); // Sets the input field back to empty
   }
 
+  /* This gets ran (and thus the HTML gets re-made) each time a new plate is submitted */
   function populateList(plates = [], platesList) {
     platesList.innerHTML = plates.map((plate, i) => {
       return `
@@ -50,11 +55,14 @@
           <input type="checkbox" data-index=${i} id="item${i}" ${plate.done ? 'checked' : ''}>
           <label for='item${i}'>${plate.text}</label>
         </li>
-      `;
-    }).join('');
+      `; // The label's for='item${i}' links it to the input's id='item${i}'
+    }).join(''); // All of the above HTML gets mapped to the .plates <ul> innerHTML after being joined
   }
 
   addItems.addEventListener('submit', addItem);
+
+  /* Calling this outside of an event just so it gets done once on page load */
+  populateList(items, itemsList);
 
 </script>
 
