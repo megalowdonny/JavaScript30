@@ -28,6 +28,7 @@
 <script>
   const addItems = document.querySelector('.add-items');
   const itemsList = document.querySelector('.plates');
+  const deleteButtons = document.querySelectorAll('.delete')
   /* The items array will either be pulling from localStorage, or will be created
   as an empty array, depending on if there's already anything in localStorage to pull */
   const items = JSON.parse(localStorage.getItem('items')) || [];
@@ -54,12 +55,35 @@
         <li>
           <input type="checkbox" data-index=${i} id="item${i}" ${plate.done ? 'checked' : ''}>
           <label for='item${i}'>${plate.text}</label>
+          <button for='item${i}' class='delete' data-index='${i}''>X</button>
         </li>
       `; // The label's for='item${i}' links it to the input's id='item${i}'
     }).join(''); // All of the above HTML gets mapped to the .plates <ul> innerHTML after being joined
   }
 
+  /* I decided to include an extra delete button and functionality to them,
+  so this function handles checking and deleting */
+  function toggleDone(e) {
+    if (e.target.matches('input')) { // Handles input clicks
+      const index = e.target.dataset.index;
+      items[index].done = !items[index].done;
+      localStorage.setItem('items', JSON.stringify(items));
+      populateList(items, itemsList); // Update to show change, but unnecessary?
+    } 
+    else if (e.target.matches('button')) { // Handles delete button clicks
+      items.splice(e.target.dataset.index, 1); // Removes from items
+      localStorage.setItem('items', JSON.stringify(items)); // Pushes update
+      populateList(items, itemsList); // Update to show change
+    }
+    return;
+  }
+
+  function handleDelete(e) {
+    console.log(e);
+  }
+
   addItems.addEventListener('submit', addItem);
+  itemsList.addEventListener('click', toggleDone);
 
   /* Calling this outside of an event just so it gets done once on page load */
   populateList(items, itemsList);
