@@ -70,7 +70,7 @@
       localStorage.setItem('items', JSON.stringify(items));
       populateList(items, itemsList); // Update to show change, but unnecessary?
     } 
-    else if (e.target.matches('button')) { // Handles delete button clicks
+    else if (e.target.matches('.delete')) { // Handles delete button clicks
       items.splice(e.target.dataset.index, 1); // Removes from items
       localStorage.setItem('items', JSON.stringify(items)); // Pushes update
       populateList(items, itemsList); // Update to show change
